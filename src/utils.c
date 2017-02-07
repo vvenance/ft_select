@@ -1,46 +1,35 @@
 #include "../inc/ft_select.h"
 
-void	add_entry(t_entry **list, char *entry)
+void	add_elem_dcl(t_dclist **list, char *name)
 {
-	t_entry	*new;
-	t_entry	*tmp;
+	t_dclist	*new;
+	t_dclist	*tmp;
 
 	tmp = *list;
 	new = NULL;
-	while (tmp && tmp->next)
+	while (tmp && tmp->next != *list)
 		tmp = tmp->next;
-	new = malloc(sizeof(t_entry));
-	new.selected = 0;
+	if ((new = malloc(sizeof(t_dclist))))
+		new->name = name;
 	if (tmp)
 	{
+		new->prev =	tmp;
+		new->next = tmp->next;
+		tmp->next->prev = new;
 		tmp->next = new;
-		new->prev = tmp;
-		new->next = *list;
 	}
 	else
 	{
 		tmp = new;
-		tmp->prev = NULL;
-		tmp->next = NULL;
+		tmp->prev = new;
+		tmp->next = new;
+		*list = tmp;
 	}
 }
 
-void	del_entry(t_entry **list, t_entry *elem)
+void	del_elem_dcl(t_dclist **list, t_dclist *elem)
 {
-	t_entry *tmp;
-	t_entry	*prev;
-
-	tmp = *list;
-	prev = NULL;
-	if (tmp->next == tmp)
-	{
-		*list = NULL;
-		tmp = NULL;
-	}
-	while (tmp && ft_strcmp(tmp->name, elem->name))
-		tmp = tmp->next;
-	prev = tmp->prev;
-	prev->next = tmp->next;
+	elem->prev->next = elem->next;
+	elem->next->prev = elem->prev;
 	ft_free(2, &elem->name, &elem);
-
 }

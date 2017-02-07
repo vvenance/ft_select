@@ -10,13 +10,19 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <signal.h>
+#include "../libft/inc/libft.h"
 
-typedef struct	s_entry
+typedef struct	s_dclist
 {
 	char		*name;
-	int			selected;
-	s_entry		*prev;
-	s_entry		*next;
-}				t_entry;
+	s_dclist	*prev;
+	s_dclist	*next;
+}				t_dclist;
+
+typedef struct	s_info
+{
+	int			nb_elem;
+	int			name_maxlen;
+}				t_info;
 
 #endif
