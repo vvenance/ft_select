@@ -11,4 +11,12 @@
 #include <sys/uio.h>
 #include <signal.h>
 
+typedef struct	s_entry
+{
+	char		*name;
+	int			selected;
+	s_entry		*prev;
+	s_entry		*next;
+}				t_entry;
+
 #endif
