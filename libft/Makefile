@@ -37,7 +37,7 @@ SRC_NAME = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c\
 OBJ_PATH = ./obj/
 OBJ_NAME = $(SRC_NAME:.c=.o)
 
-CFLAGS =  -Wall -Wextra -Werror -g
+CFLAGS =  -Wall -Wextra -Werror
 
 SRC = $(addprefix $(SRC_PATH),$(SRC_NAME))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
