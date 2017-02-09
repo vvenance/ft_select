@@ -7,8 +7,8 @@ int	init_termcaps(struct termios *term, struct termios *config)
 
 	if (!(tname = ttyname(ttyslot())))
 		return (0);
-	if ((tname = getenv("TERM")) != NULL && tgetent(NULL, &tname) != NULL
-		&& tcgetattr(0, *config) != ERR)
+	if ((tname = getenv("TERM")) != NULL && tgetent(NULL, tname) == 1
+		&& tcgetattr(0, config) != ERR)
 	{
 		term->c_iflag = config->c_iflag;
 		term->c_oflag = config->c_oflag;

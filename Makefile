@@ -1,12 +1,13 @@
 NAME		= ft_select
 
-CC			= GCC
+CC			= CC
 
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -ltermcap -Wall -Werror -Wextra
 
 SRC_PATH	= ./src/
 
-SRC_NAME	= $(SRC_PATH)main.c
+SRC_NAME	= $(SRC_PATH)main.c $(SRC_PATH)init_termcaps.c $(SRC_PATH)utils.c\
+				$(SRC_PATH)get_list.c
 
 OBJ_PATH	= ./obj/
 
