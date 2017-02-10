@@ -2,7 +2,7 @@ NAME		= ft_select
 
 CC			= CC
 
-CFLAGS		= -ltermcap -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra
 
 SRC_PATH	= ./src/
 
@@ -19,6 +19,8 @@ OBJ			= $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 
 I_LIBFT 	= -Ilibft
 
+LIB			= -L /usr/lib -ltermcap
+
 LIBFT 		= -Llibft $(I_LIBFT) -lft
 
 all:	$(NAME)
@@ -26,7 +28,7 @@ all:	$(NAME)
 
 $(NAME): $(SRCS_O)
 			@make -C libft
-			@$(CC) $(CC_FLAGS) -o $(NAME) $(SRC_NAME) $^ -I . $(LIBFT)
+			@$(CC) $(CC_FLAGS) $(LIB) -o $(NAME) $(SRC_NAME) $^ -I . $(LIBFT)
 			@echo "$(NAME) has been successfuly done :)"
 
 %.o: $(SRC_PATH)%.c
