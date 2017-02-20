@@ -24,6 +24,8 @@ typedef struct	s_info
 {
 	int			nb_elem;
 	int			name_maxlen;
+	int			tcol;
+	int			tline;
 }				t_info;
 
 void	add_elem_dcl(t_dclist **list, char *name);

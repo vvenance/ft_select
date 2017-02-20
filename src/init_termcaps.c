@@ -22,8 +22,3 @@ int	init_termcaps(struct termios *term, struct termios *config)
 	}
 	return (0);
 }
-
-void return_to_term(struct termios *config)
-{
-	;
-}

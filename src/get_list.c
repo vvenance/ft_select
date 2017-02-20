@@ -12,7 +12,7 @@ void	get_list(char **av, t_dclist **list, t_info *info)
 	{
 		add_elem_dcl(list, ft_strdup(av[i]));
 		info->nb_elem++;
-		if ((ret = ft_strlen(av[i])) > info->nb_elem)
-			info->nb_elem = ret;
+		if (ft_strlen(av[i]) > info->name_maxlen)
+			info->name_maxlen = ft_strlen(av[i]);
 	}
 }
