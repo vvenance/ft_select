@@ -54,17 +54,15 @@ void	show_with_attr(t_dclist *ptr, t_info *info)
 {
 	int i;
 
+	tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &my_putc);
 	get_coor(ptr);
+	ft_putendl(ptr->name[UNDERL]);
 	if (!ptr->know[SELECT] && !ptr->know[CURR])
 		ft_putstr_fd(ptr->name[CLASSIC], 2);
 	else if (ptr->know[SELECT] && !ptr->know[CURR])
 		ft_putstr_fd(ptr->name[REVV], 2);
 	else if (!ptr->know[SELECT] && ptr->know[CURR])
-	{
-		ft_putendl("yolo");
 		ft_putstr_fd(ptr->name[UNDERL], 2);
-		ft_putendl("yolo");
-	}
 	else if (ptr->know[SELECT] && ptr->know[CURR])
 		ft_putstr_fd(ptr->name[BOTH], 2);
 	i = (info->name_maxlen - ptr->know[NAMLEN]) + 1;
@@ -77,7 +75,6 @@ void	show(t_info *info, t_dclist *list)
 	int			cnt;
 
 	ptr = list;
-	i = 0;
 	cnt = 0;
 	while (ptr)
 	{
@@ -86,7 +83,7 @@ void	show(t_info *info, t_dclist *list)
 		show_with_attr(ptr, info);
 		if (cnt >= 1 && ptr->next != list)
 			ft_putstr_fd("\E[0m ", 2);
-		else if (cnt == 1 && ptr->next != list)
+		else if (cnt == 0 && ptr->next != list)
 			ft_putendl_fd("\E[0m", 2);
 		cnt--;
 		ptr = ptr->next;

@@ -15,5 +15,5 @@ void	get_list(char **av, t_dclist **list, t_info *info)
 		if (ft_strlen(av[i]) > info->name_maxlen)
 			info->name_maxlen = ft_strlen(av[i]);
 	}
-	(*list)->know[SELECT] = 1;
+	(*list)->know[CURR] = 1;
 }
