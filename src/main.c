@@ -1,6 +1,6 @@
 #include "../inc/ft_select.h"
 
-int		sh_putc(int c)
+int		my_putc(int c)
 {
 	write(isatty(1), &c, 1);
 	return (0);
@@ -12,36 +12,40 @@ void	clear_term_get_size(t_info *info)
 	char			*str;
 
 	str = tgetstr("cl", NULL);
-	tputs(str, 0, &sh_putc); //tputs putain
+	tputs(str, 0, &my_putc);
 	ioctl(0, TIOCGWINSZ, &winsize);
 	info->tcol = winsize.ws_col;
 	info->tline = winsize.ws_row;
-	tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &sh_putc);
+	info->elem_per_col = info->tcol / (info->name_maxlen + 1);
+	info->nb_lines = info->nb_elem / info->elem_per_col;
+	if (info->nb_elem % info->elem_per_col)
+		info->nb_line += 1;
+	tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &my_putc);
 }
 
 void	show(t_info *info, t_dclist *list)
 {
-	int able;
-	int d;
-	t_dclist *ptr;
+	// int able;
+	// int d;
+	// t_dclist *ptr;
 
-	ptr = list;
-	d = 0;
-	able = info->tcol / (info->name_maxlen + 1);
-	while (ptr)
-	{
-		if (!d)
-			d = able;
-		ft_putstr(ptr->name);
-		if (d >= 1 && ptr->next != list)
-			ft_putchar(' ');
-		else if (d == 1 && ptr->next != list)
-			ft_putendl("");
-		d--;
-		ptr = ptr->next;
-		if (ptr == list)
-			break;
-	}
+	// ptr = list;
+	// d = 0;
+	// able = info->tcol / (info->name_maxlen + 1);
+	// while (ptr)
+	// {
+	// 	if (!d)
+	// 		d = able;
+	// 	ft_putstr(ptr->name);
+	// 	if (d >= 1 && ptr->next != list)
+	// 		ft_putchar(' ');
+	// 	else if (d == 1 && ptr->next != list)
+	// 		ft_putendl("");
+	// 	d--;
+	// 	ptr = ptr->next;
+	// 	if (ptr == list)
+	// 		break;
+	// }
 }
 
 void	get_key(char *buff, t_dclist *list, t_info *info)
@@ -60,22 +64,16 @@ void	get_key(char *buff, t_dclist *list, t_info *info)
 	else if (buff[0] == 10 && buff[1] == 0)
 		ft_putendl("return");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 65)
-		ft_putendl("fleche du haut");
+		ft_putendl("\E[0;4;7mfleche du haut");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 66)
-		ft_putendl("fleche du bas");
+		ft_putendl("\E[0mfleche du bas");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 67)
-		tputs(tgoto(tgetstr("vi", NULL), 1, 0), 1, &sh_putc);
+		tputs(tgoto(tgetstr("vi", NULL), 1, 0), 1, &my_putc);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 68)
 		ft_putendl("fleche du gauche");
 	else if (buff[0] == 26)
 		ft_putendl("ctrl+z");
 	ft_bzero(buff, 3);
-}
-
-void cursor(void)
-{
-	
-	
 }
 
 int main(int ac, char **av)

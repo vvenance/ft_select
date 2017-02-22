@@ -13,10 +13,20 @@
 #include <termcap.h>
 #include "../libft/inc/libft.h"
 
+# define CLASSIC 0
+# define REVV 1
+# define UNDERL 2
+# define BOTH 3
+# define POSX 0
+# define POSY 1
+# define SELECT 2
+# define CURR 3
+# define NAMLEN 4
+
 typedef struct	s_dclist
 {
-	char		*name;
-	int			length;
+	char		**name;
+	int			know[5];
 	struct s_dclist	*prev;
 	struct s_dclist	*next;
 }				t_dclist;
@@ -27,6 +37,8 @@ typedef struct	s_info
 	int			name_maxlen;
 	int			tcol;
 	int			tline;
+	int			elem_per_col;
+	int			nb_lines;
 }				t_info;
 
 void	add_elem_dcl(t_dclist **list, char *name);

@@ -10,9 +10,10 @@ void	get_list(char **av, t_dclist **list, t_info *info)
 	info->name_maxlen = 0;
 	while (av[++i])
 	{
-		add_elem_dcl(list, ft_strdup(av[i]));
+		add_elem_dcl(list, av[i]);
 		info->nb_elem++;
 		if (ft_strlen(av[i]) > info->name_maxlen)
 			info->name_maxlen = ft_strlen(av[i]);
 	}
+	(*list)->know[SELECT] = 1;
 }
