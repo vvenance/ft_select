@@ -16,6 +16,7 @@
 typedef struct	s_dclist
 {
 	char		*name;
+	int			length;
 	struct s_dclist	*prev;
 	struct s_dclist	*next;
 }				t_dclist;
@@ -32,5 +33,6 @@ void	add_elem_dcl(t_dclist **list, char *name);
 int		init_termcaps(struct termios *term, struct termios *config);
 void	del_elem_dcl(t_dclist **list, t_dclist *elem);
 void	get_list(char **av, t_dclist **list, t_info *info);
+void	return_to_term(struct termios *config);
 
 #endif

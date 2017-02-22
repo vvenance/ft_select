@@ -9,8 +9,10 @@ void	add_elem_dcl(t_dclist **list, char *name)
 	new = NULL;
 	while (tmp && tmp->next != *list)
 		tmp = tmp->next;
-	if ((new = malloc(sizeof(t_dclist))))
-		new->name = name;
+	if (!(new = malloc(sizeof(t_dclist))))
+		exit(0);
+	new->name = name;
+	new->length = ft_strlen(name);
 	if (tmp)
 	{
 		new->prev =	tmp;
@@ -32,4 +34,10 @@ void	del_elem_dcl(t_dclist **list, t_dclist *elem)
 	elem->prev->next = elem->next;
 	elem->next->prev = elem->prev;
 	ft_free(2, &elem->name, &elem);
+}
+
+void return_to_term(struct termios *config)
+{
+	if (tcgetattr(0, config) != -1)
+		exit(1);
 }
