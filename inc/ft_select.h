@@ -46,5 +46,7 @@ int		init_termcaps(struct termios *term, struct termios *config);
 void	del_elem_dcl(t_dclist **list, t_dclist *elem);
 void	get_list(char **av, t_dclist **list, t_info *info);
 void	return_to_term(struct termios *config);
+void	add_elem_dcl(t_dclist **list, char *str);
+int		my_putc(int c);
 
 #endif

@@ -3,7 +3,7 @@
 static void	get_names(char **name, char *str)
 {
 	name = NULL;
-	name = malloc(sizeof((char *) * (4)));
+	name = malloc(4 * sizeof(char *));
 	if (!name)
 		exit (0);
 	name[CLASSIC] = ft_strjoin("\E[0m", str);

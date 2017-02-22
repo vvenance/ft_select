@@ -7,7 +7,7 @@ CFLAGS		= -Wall -Werror -Wextra
 SRC_PATH	= ./src/
 
 SRC_NAME	= $(SRC_PATH)main.c $(SRC_PATH)init_termcaps.c $(SRC_PATH)utils.c\
-				$(SRC_PATH)get_list.c
+				$(SRC_PATH)get_list.c $(SRC_PATH)list_utils.c
 
 OBJ_PATH	= ./obj/
 

@@ -31,7 +31,7 @@ SRC_NAME = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c\
  ft_str_is_numeric.c ft_str_is_lowercase.c ft_str_is_alhpa.c ft_nbword.c\
  ft_recursive_power.c ft_recursive_factorial.c ft_is_prime.c ft_is_negative.c\
  ft_find_next_prime.c ft_power.c ft_lstaddend.c ft_floorl.c ft_wstrlen.c ft_free.c\
- get_next_line.c
+ get_next_line.c ft_free_tab.c
 
 
 OBJ_PATH = ./obj/
