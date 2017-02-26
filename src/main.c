@@ -21,6 +21,9 @@ void	clear_term_get_size(t_info *info)
 	if (info->nb_elem % info->elem_per_col)
 		info->nb_lines += 1;
 	tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &my_putc);
+	if (info->nb_lines > winsize.ws_col)
+		ft_putstr_fd("The window is too small.", 2);
+	//mettre un signal avec un sighandler qui rappelle cette fctn
 }
 
 void	get_coor(t_dclist *ptr, int cnt)
@@ -101,14 +104,12 @@ void	get_key(char *buff, t_dclist *list, t_info *info)
 		ft_putendl("echap");
 	else if (buff[0] == 32)
 		space_key(list, info);
-	else if (buff[0] == 8)
-		ft_putendl("backspace");
-	else if (buff[0] == 127)
-		ft_putendl("delete");
+	else if (buff[0] == 8 || buff[0] == 127)
+		ft_putendl("backspace, delete");
 	else if (buff[0] == 10 && buff[1] == 0)
 		ft_putendl("return");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 65)
-		ft_putendl("\E[0;4;7mfleche du haut");
+		ft_putendl("\E[0mfleche du haut");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 66)
 		ft_putendl("\E[0mfleche du bas");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 67)
