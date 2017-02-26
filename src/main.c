@@ -23,7 +23,7 @@ void	clear_term_get_size(t_info *info)
 	tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &my_putc);
 }
 
-void	get_coor(t_dclist *ptr)
+void	get_coor(t_dclist *ptr, int cnt)
 {
 	char buff;
 	char str[10];
@@ -45,8 +45,8 @@ void	get_coor(t_dclist *ptr)
 		}
 	}
 	array = ft_strsplit(str, ';');
-	ptr->know[POSY] = ft_atoi(array[0]);
-	ptr->know[POSX] = ft_atoi(array[1]);
+	ptr->know[POSX] = ft_atoi(array[1]) - 1;
+	ptr->know[POSY] = ft_atoi(array[0]) - 1;
 	ft_free_tab(array);
 }
 
@@ -54,9 +54,7 @@ void	show_with_attr(t_dclist *ptr, t_info *info)
 {
 	int i;
 
-	tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &my_putc);
-	get_coor(ptr);
-	//ft_putendl(ptr->name[UNDERL]);
+	// get_coor(ptr);
 	if (!ptr->know[SELECT] && !ptr->know[CURR])
 		ft_putstr_fd(ptr->name[CLASSIC], 2);
 	else if (ptr->know[SELECT] && !ptr->know[CURR])
@@ -82,8 +80,9 @@ void	show(t_info *info, t_dclist *list)
 	{
 		if (!cnt)
 			cnt = info->elem_per_col;
+		get_coor(ptr, cnt);
 		show_with_attr(ptr, info);
-		if (cnt >= 1 && ptr->next != list)
+		if (cnt > 1 && ptr->next != list)
 			ft_putstr_fd("\E[0m ", 2);
 		else if (cnt == 1 && ptr->next != list)
 			ft_putendl_fd("\E[0m", 2);
@@ -92,27 +91,6 @@ void	show(t_info *info, t_dclist *list)
 		if (ptr == list)
 			break;
 	}
-	// int able;
-	// int d;
-	// t_dclist *ptr;
-
-	// ptr = list;
-	// d = 0;
-	// able = info->tcol / (info->name_maxlen + 1);
-	// while (ptr)
-	// {
-	// 	if (!d)
-	// 		d = able;
-	// 	ft_putstr(ptr->name);
-	// 	if (d >= 1 && ptr->next != list)
-	// 		ft_putchar(' ');
-	// 	else if (d == 1 && ptr->next != list)
-	// 		ft_putendl("");
-	// 	d--;
-	// 	ptr = ptr->next;
-	// 	if (ptr == list)
-	// 		break;
-	// }
 }
 
 void	get_key(char *buff, t_dclist *list, t_info *info)
@@ -143,6 +121,23 @@ void	get_key(char *buff, t_dclist *list, t_info *info)
 	ft_bzero(buff, 3);
 }
 
+void	write_there(t_dclist *list)
+{
+	t_dclist *ptr;
+
+	ptr = list;
+	// while (ft_strcmp(ptr->name[CLASSIC], "\E[0mdfdf"))
+	// 	ptr = ptr->next;
+	// tputs(tgoto(tgetstr("cm", NULL), ptr->know[POSX], ptr->know[POSY]), 1, &my_putc);
+	// 	ft_putstr_fd("ctr", 2);
+	while (ptr->next != list)
+	{
+		tputs(tgoto(tgetstr("cm", NULL), ptr->know[POSX], ptr->know[POSY]), 1, &my_putc);
+		ft_putstr_fd("ctr", 2);
+		ptr = ptr->next;
+	}
+}
+
 int main(int ac, char **av)
 {
 	t_dclist		*list;
@@ -160,15 +155,24 @@ int main(int ac, char **av)
 		clear_term_get_size(&info);
 		open(0, O_RDONLY);
 		show(&info, list);
-		while (1)
-		{
-			read(0, buff, 3);
-			get_key(buff, list, &info);
-		}
+		// while (1)
+		// {
+		// 	read(0, buff, 3);
+		// 	get_key(buff, list, &info);
+		// }
 		//return_to_term(&config);
 	}
 	else
 		ft_putendl_fd("Something went wrong. Maybe you should set a correct environnement before running the program again. Bye !", 2);
+	// t_dclist *ptr;
+
+	// ptr = list;
+	write_there(list);
+	// while (ptr->next != list)
+	// {
+	// 	printf("posx = %d, posy = %d\n", ptr->know[POSX], ptr->know[POSY]);
+	// 	ptr = ptr->next;
+	// }
 	return_to_term(&config);
 	return (0);
 }
