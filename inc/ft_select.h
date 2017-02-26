@@ -48,5 +48,11 @@ void	get_list(char **av, t_dclist **list, t_info *info);
 void	return_to_term(struct termios *config);
 void	add_elem_dcl(t_dclist **list, char *str);
 int		my_putc(int c);
+void	space_key(t_dclist *list, t_info *info);
+void	show_with_attr(t_dclist *ptr, t_info *info);
+void	right_key(t_dclist *list, t_info *info);
+void	left_key(t_dclist *list, t_info *info);
+
+
 
 #endif

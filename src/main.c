@@ -54,7 +54,6 @@ void	show_with_attr(t_dclist *ptr, t_info *info)
 {
 	int i;
 
-	// get_coor(ptr);
 	if (!ptr->know[SELECT] && !ptr->know[CURR])
 		ft_putstr_fd(ptr->name[CLASSIC], 2);
 	else if (ptr->know[SELECT] && !ptr->know[CURR])
@@ -101,7 +100,7 @@ void	get_key(char *buff, t_dclist *list, t_info *info)
 	else if (buff[0] == 27 && buff[1] == 0)
 		ft_putendl("echap");
 	else if (buff[0] == 32)
-		ft_putendl("espace");
+		space_key(list, info);
 	else if (buff[0] == 8)
 		ft_putendl("backspace");
 	else if (buff[0] == 127)
@@ -113,9 +112,9 @@ void	get_key(char *buff, t_dclist *list, t_info *info)
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 66)
 		ft_putendl("\E[0mfleche du bas");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 67)
-		tputs(tgoto(tgetstr("vi", NULL), 1, 0), 1, &my_putc);
+		right_key(list, info);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 68)
-		ft_putendl("fleche du gauche");
+		left_key(list, info);
 	else if (buff[0] == 26)
 		ft_putendl("ctrl+z");
 	ft_bzero(buff, 3);
@@ -155,19 +154,19 @@ int main(int ac, char **av)
 		clear_term_get_size(&info);
 		open(0, O_RDONLY);
 		show(&info, list);
-		// while (1)
-		// {
-		// 	read(0, buff, 3);
-		// 	get_key(buff, list, &info);
-		// }
-		//return_to_term(&config);
+		while (1)
+		{
+			read(0, buff, 3);
+			get_key(buff, list, &info);
+		}
+		return_to_term(&config);
 	}
 	else
 		ft_putendl_fd("Something went wrong. Maybe you should set a correct environnement before running the program again. Bye !", 2);
 	// t_dclist *ptr;
 
 	// ptr = list;
-	write_there(list);
+	//write_there(list);
 	// while (ptr->next != list)
 	// {
 	// 	printf("posx = %d, posy = %d\n", ptr->know[POSX], ptr->know[POSY]);
