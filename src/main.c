@@ -1,11 +1,5 @@
 #include "../inc/ft_select.h"
 
-int		my_putc(int c)
-{
-	write(isatty(1), &c, 1);
-	return (0);
-}
-
 void	clear_term_get_size(t_info *info)
 {
 	struct winsize	winsize;
@@ -95,23 +89,26 @@ void	show(t_info *info, t_dclist *list)
 	}
 }
 
-void	get_key(char *buff, t_dclist *list, t_info *info)
+void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 {
 	//printf("buf0 = %d buf1= %d buf2= %d buf3 = %d\n", (int)buff[0], (int)buff[1], (int)buff[2], (int)buff[3]); //affiche les codes des touches
 	if (buff[0] == 4) //ctrl+d
+	{
+		return_to_term(&config);
 		exit (0); // free les malloc et quitter proprement
+	}
 	else if (buff[0] == 27 && buff[1] == 0)
 		ft_putendl("echap");
 	else if (buff[0] == 32)
 		space_key(list, info);
 	else if (buff[0] == 8 || buff[0] == 127)
-		ft_putendl("backspace, delete");
+		bspace_delete_key(list, info, config);
 	else if (buff[0] == 10 && buff[1] == 0)
 		ft_putendl("return");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 65)
-		ft_putendl("\E[0mfleche du haut");
+		; //ft_putendl("\E[0mfleche du haut");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 66)
-		ft_putendl("\E[0mfleche du bas");
+		; //ft_putendl("\E[0mfleche du bas");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 67)
 		right_key(list, info);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 68)
@@ -119,23 +116,6 @@ void	get_key(char *buff, t_dclist *list, t_info *info)
 	else if (buff[0] == 26)
 		ft_putendl("ctrl+z");
 	ft_bzero(buff, 3);
-}
-
-void	write_there(t_dclist *list)
-{
-	t_dclist *ptr;
-
-	ptr = list;
-	// while (ft_strcmp(ptr->name[CLASSIC], "\E[0mdfdf"))
-	// 	ptr = ptr->next;
-	// tputs(tgoto(tgetstr("cm", NULL), ptr->know[POSX], ptr->know[POSY]), 1, &my_putc);
-	// 	ft_putstr_fd("ctr", 2);
-	while (ptr->next != list)
-	{
-		tputs(tgoto(tgetstr("cm", NULL), ptr->know[POSX], ptr->know[POSY]), 1, &my_putc);
-		ft_putstr_fd("ctr", 2);
-		ptr = ptr->next;
-	}
 }
 
 int main(int ac, char **av)
@@ -158,21 +138,11 @@ int main(int ac, char **av)
 		while (1)
 		{
 			read(0, buff, 3);
-			get_key(buff, list, &info);
+			get_key(buff, list, &info, config);
 		}
-		return_to_term(&config);
 	}
 	else
 		ft_putendl_fd("Something went wrong. Maybe you should set a correct environnement before running the program again. Bye !", 2);
-	// t_dclist *ptr;
-
-	// ptr = list;
-	//write_there(list);
-	// while (ptr->next != list)
-	// {
-	// 	printf("posx = %d, posy = %d\n", ptr->know[POSX], ptr->know[POSY]);
-	// 	ptr = ptr->next;
-	// }
 	return_to_term(&config);
 	return (0);
 }

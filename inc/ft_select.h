@@ -52,7 +52,9 @@ void	space_key(t_dclist *list, t_info *info);
 void	show_with_attr(t_dclist *ptr, t_info *info);
 void	right_key(t_dclist *list, t_info *info);
 void	left_key(t_dclist *list, t_info *info);
-
-
+void	re_get_list(t_dclist *list, t_info *info);
+void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config);
+void	show(t_info *info, t_dclist *list);
+void	clear_term_get_size(t_info *info);
 
 #endif
