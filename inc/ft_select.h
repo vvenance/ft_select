@@ -17,6 +17,7 @@
 # define REVV 1
 # define UNDERL 2
 # define BOTH 3
+# define SIMPLE 4
 # define POSX 0
 # define POSY 1
 # define SELECT 2
@@ -56,5 +57,6 @@ void	re_get_list(t_dclist *list, t_info *info);
 void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config);
 void	show(t_info *info, t_dclist *list);
 void	clear_term_get_size(t_info *info);
+void	return_key(t_dclist *list, t_info *info, struct termios config);
 
 #endif

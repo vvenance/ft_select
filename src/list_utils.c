@@ -3,13 +3,14 @@
 static char	**get_names(char **name, char *str)
 {
 	name = NULL;
-	name = malloc(4 * sizeof(char *));
+	name = malloc(5 * sizeof(char *));
 	if (!name)
 		exit (0);
 	name[CLASSIC] = ft_strjoin("\E[0m", str);
 	name[REVV] = ft_strjoin("\E[0;7m", str);
 	name[UNDERL] = ft_strjoin("\E[0;4m", str);
 	name[BOTH] = ft_strjoin("\E[0;4;7m", str);
+	name[SIMPLE] = ft_strdup(str);
 	return (name);
 }
 

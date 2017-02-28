@@ -68,7 +68,7 @@ void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config)
 
 	if (info->nb_elem == 1)
 	{
-		del_elem_dcl(&list, ptr);
+		//free_le ptr sur la liste
 		return_to_term(&config);
 		exit(0);
 	}
@@ -82,4 +82,38 @@ void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config)
 	re_get_list(list, info);
 	clear_term_get_size(info);
 	show(info, list);
+}
+
+void	return_key(t_dclist *list, t_info *info, struct termios config)
+{
+	t_dclist *ptr;
+	int ret;
+
+	ptr = list;
+	ret = 0;
+	ft_putstr_fd("\033[?1049l", 2);
+	while (ptr)
+	{
+		if (ptr->know[SELECT] == 1)
+		{
+			if (!ret)
+			{
+				ft_putstr(ptr->name[SIMPLE]);
+				ret += 1;
+			}
+			else
+			{
+				ft_putchar(' ');
+				ft_putstr(ptr->name[SIMPLE]);
+			}
+		}
+		ptr = ptr->next;
+		if (ptr->prev != list)
+			;//free !
+		if (ptr == list)
+			break;
+	}
+	//free list
+	return_to_term(&config);
+	exit(0);
 }
