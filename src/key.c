@@ -80,7 +80,7 @@ void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config)
 		*list = *list->next;
 	del_elem_dcl(&list, ptr);
 	re_get_list(list, info);
-	clear_term_get_size(info);
+	clear_term_get_size(info,list);
 	show(info, list);
 }
 

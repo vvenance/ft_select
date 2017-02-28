@@ -1,6 +1,6 @@
 #include "../inc/ft_select.h"
 
-void	clear_term_get_size(t_info *info)
+void	clear_term_get_size(t_info *info, t_dclist *list)
 {
 	struct winsize	winsize;
 	char			*str;
@@ -15,8 +15,10 @@ void	clear_term_get_size(t_info *info)
 	if (info->nb_elem % info->elem_per_col)
 		info->nb_lines += 1;
 	tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &my_putc);
-	if (info->nb_lines > winsize.ws_col)
+	if (info->nb_lines >= winsize.ws_row)
 		ft_putstr_fd("The window is too small.", 2);
+	else
+		show(info, list);
 	//mettre un signal avec un sighandler qui rappelle cette fctn
 }
 
@@ -62,9 +64,8 @@ int main(int ac, char **av)
 	else if (av[1] && getenv("TERM") != NULL && (init_termcaps(&term, &config)))
 	{
 		get_list(av, &list, &info);
-		clear_term_get_size(&info);
+		clear_term_get_size(&info, list);
 		open(0, O_RDONLY);
-		show(&info, list);
 		while (1)
 		{
 			read(0, buff, 3);
