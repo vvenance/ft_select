@@ -7,7 +7,8 @@ CFLAGS		= -Wall -Werror -Wextra
 SRC_PATH	= ./src/
 
 SRC_NAME	= $(SRC_PATH)main.c $(SRC_PATH)init_termcaps.c $(SRC_PATH)utils.c\
-				$(SRC_PATH)get_list.c $(SRC_PATH)list_utils.c $(SRC_PATH)key.c
+				$(SRC_PATH)get_list.c $(SRC_PATH)list_utils.c $(SRC_PATH)key.c\
+				$(SRC_PATH)key2.c $(SRC_PATH)show.c
 
 OBJ_PATH	= ./obj/
 
@@ -28,7 +29,7 @@ all:	$(NAME)
 
 $(NAME): $(SRCS_O)
 			@make -C libft
-			@$(CC) $(CC_FLAGS) $(LIB) -o $(NAME) $(SRC_NAME) $^ -I . $(LIBFT)
+			@$(CC) $(CFLAGS) $(LIB) -o $(NAME) $(SRC_NAME) $^ -I . $(LIBFT)
 			@echo "$(NAME) has been successfuly done :)"
 
 %.o: $(SRC_PATH)%.c

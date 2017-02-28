@@ -20,137 +20,6 @@ void	clear_term_get_size(t_info *info)
 	//mettre un signal avec un sighandler qui rappelle cette fctn
 }
 
-void	get_coor(t_dclist *ptr, int cnt)
-{
-	char buff;
-	char str[10];
-	int j;
-	char **array;
-
-	ft_bzero(str, 9);
-	ft_putstr("\E[6n");
-	j = 0;
-	while (1)
-	{
-		read(1, &buff, 1);
-		if (buff == 'R')
-			break;
-		else if (ft_isdigit(buff) || buff == ';')
-		{
-			str[j] = buff;
-			j++;
-		}
-	}
-	array = ft_strsplit(str, ';');
-	ptr->know[POSX] = ft_atoi(array[1]) - 1;
-	ptr->know[POSY] = ft_atoi(array[0]) - 1;
-	ft_free_tab(array);
-}
-
-void	show_with_attr(t_dclist *ptr, t_info *info)
-{
-	int i;
-
-	if (!ptr->know[SELECT] && !ptr->know[CURR])
-		ft_putstr_fd(ptr->name[CLASSIC], 2);
-	else if (ptr->know[SELECT] && !ptr->know[CURR])
-		ft_putstr_fd(ptr->name[REVV], 2);
-	else if (!ptr->know[SELECT] && ptr->know[CURR])
-		ft_putstr_fd(ptr->name[UNDERL], 2);
-	else if (ptr->know[SELECT] && ptr->know[CURR])
-		ft_putstr_fd(ptr->name[BOTH], 2);
-	i = (info->name_maxlen - ptr->know[NAMLEN]) + 1;
-	while (--i)
-		ft_putstr_fd("\E[0m ", 2);
-}
-
-void	show(t_info *info, t_dclist *list)
-{
-	t_dclist	*ptr;
-	int			i;
-	int			cnt;
-
-	ptr = list;
-	cnt = 0;
-	while (ptr)
-	{
-		if (!cnt)
-			cnt = info->elem_per_col;
-		get_coor(ptr, cnt);
-		show_with_attr(ptr, info);
-		if (cnt > 1 && ptr->next != list)
-			ft_putstr_fd("\E[0m ", 2);
-		else if (cnt == 1 && ptr->next != list)
-			ft_putendl_fd("\E[0m", 2);
-		cnt--;
-		ptr = ptr->next;
-		if (ptr == list)
-			break;
-	}
-}
-
-void	up_key(t_dclist *list, t_info *info)
-{
-	t_dclist	*ptr;
-	t_dclist	*tmp;
-	int			i;
-
-	ptr = list;
-	while (!ptr->know[CURR])
-		ptr = ptr->next;
-	tmp = ptr;
-	i = info->elem_per_col;
-	while (i)
-	{
-		ptr = ptr->prev;
-		if (ptr == list)
-			break;
-		i--;
-	}
-	if (!i)
-	{
-		tmp->know[CURR] = 0;
-		tputs(tgoto(tgetstr("cm", NULL), tmp->know[POSX], tmp->know[POSY]),
-			1, &my_putc);
-		show_with_attr(tmp, info);
-		ptr->know[CURR] = 1;
-		tputs(tgoto(tgetstr("cm", NULL), ptr->know[POSX], ptr->know[POSY]),
-			1, &my_putc);
-		show_with_attr(ptr, info);
-	}
-}
-
-void	down_key(t_dclist *list, t_info *info)
-{
-	t_dclist	*ptr;
-	t_dclist	*tmp;
-	int			i;
-
-	ptr = list;
-	while (!ptr->know[CURR])
-		ptr = ptr->next;
-	tmp = ptr;
-	i = info->elem_per_col;
-	while (i)
-	{
-		ptr = ptr->next;
-		if (ptr == list)
-			break;
-		i--;
-	}
-	if (!i)
-	{
-		tmp->know[CURR] = 0;
-		tputs(tgoto(tgetstr("cm", NULL), tmp->know[POSX], tmp->know[POSY]),
-			1, &my_putc);
-		show_with_attr(tmp, info);
-		ptr->know[CURR] = 1;
-		tputs(tgoto(tgetstr("cm", NULL), ptr->know[POSX], ptr->know[POSY]),
-			1, &my_putc);
-		show_with_attr(ptr, info);
-	}
-}
-
 void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 {
 	if (buff[0] == 4) //ctrl+d
@@ -165,7 +34,7 @@ void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 	else if (buff[0] == 8 || buff[0] == 127)
 		bspace_delete_key(list, info, config);
 	else if (buff[0] == 10 && buff[1] == 0)
-		return_key(list, info, config);
+		return_key(list, config);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 65)
 		up_key(list, info); //ft_putendl("\E[0mfleche du haut");
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 66)

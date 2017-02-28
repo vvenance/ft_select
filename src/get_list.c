@@ -3,7 +3,6 @@
 void	get_list(char **av, t_dclist **list, t_info *info)
 {
 	int i;
-	int	ret;
 
 	i = 0;
 	info->nb_elem = 0;
@@ -12,7 +11,7 @@ void	get_list(char **av, t_dclist **list, t_info *info)
 	{
 		add_elem_dcl(list, av[i]);
 		info->nb_elem++;
-		if (ft_strlen(av[i]) > info->name_maxlen)
+		if ((int)ft_strlen(av[i]) > info->name_maxlen)
 			info->name_maxlen = ft_strlen(av[i]);
 	}
 	(*list)->know[CURR] = 1;
@@ -20,7 +19,6 @@ void	get_list(char **av, t_dclist **list, t_info *info)
 
 void	re_get_list(t_dclist *list, t_info *info)
 {
-	int i;
 	t_dclist *ptr;
 
 	info->nb_elem = 0;

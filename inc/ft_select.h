@@ -57,6 +57,10 @@ void	re_get_list(t_dclist *list, t_info *info);
 void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config);
 void	show(t_info *info, t_dclist *list);
 void	clear_term_get_size(t_info *info);
-void	return_key(t_dclist *list, t_info *info, struct termios config);
+void	return_key(t_dclist *list, struct termios config);
+void	down_key(t_dclist *list, t_info *info);
+void	up_key(t_dclist *list, t_info *info);
+void	show_with_attr(t_dclist *ptr, t_info *info);
+void	show(t_info *info, t_dclist *list);
 
 #endif

@@ -84,7 +84,7 @@ void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config)
 	show(info, list);
 }
 
-void	return_key(t_dclist *list, t_info *info, struct termios config)
+void	return_key(t_dclist *list, struct termios config)
 {
 	t_dclist *ptr;
 	int ret;
