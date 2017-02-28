@@ -36,9 +36,9 @@ void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 	else if (buff[0] == 10 && buff[1] == 0)
 		return_key(list, config);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 65)
-		up_key(list, info); //ft_putendl("\E[0mfleche du haut");
+		up_key(list, info);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 66)
-		down_key(list, info); //ft_putendl("\E[0mfleche du bas");
+		down_key(list, info);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 67)
 		right_key(list, info);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 68)
