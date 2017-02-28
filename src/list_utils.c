@@ -55,6 +55,6 @@ void	del_elem_dcl(t_dclist **list, t_dclist *elem)
 {
 	elem->prev->next = elem->next;
 	elem->next->prev = elem->prev;
-	ft_free(6, &elem->name[0], &elem->name[1], &elem->name[2], &elem->name[3],
-		&elem->name, &elem);
+	// ft_free(6, &elem->name[0], &elem->name[1], &elem->name[2], &elem->name[3],
+	// 	&elem->name, &elem);
 }

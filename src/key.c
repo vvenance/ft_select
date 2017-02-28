@@ -76,9 +76,10 @@ void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config)
 	while (!ptr->know[CURR])
 		ptr = ptr->next;
 	ptr->next->know[CURR] = 1;
+	if (ptr == list)
+		*list = *list->next;
 	del_elem_dcl(&list, ptr);
 	re_get_list(list, info);
 	clear_term_get_size(info);
 	show(info, list);
-
 }

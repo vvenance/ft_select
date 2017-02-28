@@ -115,6 +115,8 @@ void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 		left_key(list, info);
 	else if (buff[0] == 26)
 		ft_putendl("ctrl+z");
+	ft_putstr("list =");
+	ft_putendl(list->name[CLASSIC]);
 	ft_bzero(buff, 3);
 }
 
