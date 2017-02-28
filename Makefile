@@ -8,7 +8,7 @@ SRC_PATH	= ./src/
 
 SRC_NAME	= $(SRC_PATH)main.c $(SRC_PATH)init_termcaps.c $(SRC_PATH)utils.c\
 				$(SRC_PATH)get_list.c $(SRC_PATH)list_utils.c $(SRC_PATH)key.c\
-				$(SRC_PATH)key2.c $(SRC_PATH)show.c
+				$(SRC_PATH)key2.c $(SRC_PATH)show.c $(SRC_PATH)signal.c
 
 OBJ_PATH	= ./obj/
 

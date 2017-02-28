@@ -1,5 +1,8 @@
 #include "../inc/ft_select.h"
 
+t_dclist	*list;
+t_info	info;
+
 void	clear_term_get_size(t_info *info, t_dclist *list)
 {
 	struct winsize	winsize;
@@ -52,8 +55,6 @@ void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 
 int main(int ac, char **av)
 {
-	t_dclist		*list;
-	t_info			info;
 	struct termios	term;
 	struct termios	config;
 	char			buff[4];
