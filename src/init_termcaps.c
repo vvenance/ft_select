@@ -17,6 +17,7 @@ int	init_termcaps(struct termios *term, struct termios *config)
 		term->c_cc[VTIME] = 0;
 		term->c_lflag &= ~(ICANON);
 		term->c_lflag &= ~(ECHO);
+		term->c_lflag &= ~(ISIG);
 		if ((tcsetattr(0, TCSANOW, term)) != -1)
 			return (1); 
 	}

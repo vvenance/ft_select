@@ -81,16 +81,17 @@ void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config)
 	del_elem_dcl(&list, ptr);
 	re_get_list(list, info);
 	clear_term_get_size(info,list);
-	show(info, list);
 }
 
 void	return_key(t_dclist *list, struct termios config)
 {
 	t_dclist *ptr;
 	int ret;
+	int fd;
 
 	ptr = list;
 	ret = 0;
+	fd = open("/dev/tty", O_APPEND);
 	ft_putstr_fd("\033[?1049l", 2);
 	while (ptr)
 	{
@@ -98,13 +99,13 @@ void	return_key(t_dclist *list, struct termios config)
 		{
 			if (!ret)
 			{
-				ft_putstr(ptr->name[SIMPLE]);
+				ft_putstr_fd(ptr->name[SIMPLE], fd);
 				ret += 1;
 			}
 			else
 			{
-				ft_putchar(' ');
-				ft_putstr(ptr->name[SIMPLE]);
+				ft_putchar_fd(' ', fd);
+				ft_putstr_fd(ptr->name[SIMPLE], fd);
 			}
 		}
 		ptr = ptr->next;

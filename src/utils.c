@@ -4,6 +4,7 @@ void return_to_term(struct termios *config)
 {
 	char *str;
 	
+	config->c_lflag &= ~(ISIG);
 	str = tgetstr("cnorm", NULL);
 	tputs(str, 0, &my_putc);
 	str = tgetstr("ve", NULL);

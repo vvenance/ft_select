@@ -62,5 +62,6 @@ void	down_key(t_dclist *list, t_info *info);
 void	up_key(t_dclist *list, t_info *info);
 void	show_with_attr(t_dclist *ptr, t_info *info);
 void	show(t_info *info, t_dclist *list);
+void	ft_signal(void);
 
 #endif

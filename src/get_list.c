@@ -26,10 +26,10 @@ void	re_get_list(t_dclist *list, t_info *info)
 	ptr = list;
 	while (ptr)
 	{
-		ptr = ptr->next;
 		info->nb_elem++;
 		if (ptr->know[NAMLEN] > info->name_maxlen)
 			info->name_maxlen = ptr->know[NAMLEN];
+		ptr = ptr->next;
 		if (ptr == list)
 			break;
 	}

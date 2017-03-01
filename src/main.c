@@ -1,7 +1,8 @@
 #include "../inc/ft_select.h"
 
-t_dclist	*list;
-t_info	info;
+t_dclist		*list;
+t_info			info;
+struct termios	config;
 
 void	clear_term_get_size(t_info *info, t_dclist *list)
 {
@@ -14,15 +15,19 @@ void	clear_term_get_size(t_info *info, t_dclist *list)
 	info->tcol = winsize.ws_col;
 	info->tline = winsize.ws_row;
 	info->elem_per_col = info->tcol / (info->name_maxlen + 1);
-	info->nb_lines = info->nb_elem / info->elem_per_col;
-	if (info->nb_elem % info->elem_per_col)
-		info->nb_lines += 1;
-	tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &my_putc);
-	if (info->nb_lines >= winsize.ws_row)
-		ft_putstr_fd("The window is too small.", 2);
+	if (info->elem_per_col != 0)
+	{
+		info->nb_lines = info->nb_elem / info->elem_per_col;
+		if (info->nb_elem % info->elem_per_col)
+			info->nb_lines += 1;
+		tputs(tgoto(tgetstr("vi", NULL), 0, 0), 1, &my_putc);
+		if (info->nb_lines >= winsize.ws_row)
+			ft_putstr_fd("The window is too small.", 2);
+		else
+			show(info, list);
+	}
 	else
-		show(info, list);
-	//mettre un signal avec un sighandler qui rappelle cette fctn
+		ft_putstr_fd("The window is too small.", 2);
 }
 
 void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
@@ -56,7 +61,6 @@ void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 int main(int ac, char **av)
 {
 	struct termios	term;
-	struct termios	config;
 	char			buff[4];
 
 	list = NULL;
@@ -69,6 +73,7 @@ int main(int ac, char **av)
 		open(0, O_RDONLY);
 		while (1)
 		{
+			ft_signal();
 			read(0, buff, 3);
 			get_key(buff, list, &info, config);
 		}
