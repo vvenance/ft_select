@@ -12,6 +12,7 @@ static void	my_sigwinch(int signum)
 
 static void	my_sigtstp(int signum)
 {
+	ft_putendl("here");
 	if (signum == SIGTSTP || signum == SIGINT || signum == SIGQUIT)
 	{
 		//free list
