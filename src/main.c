@@ -3,6 +3,7 @@
 t_dclist		*list;
 t_info			info;
 struct termios	config;
+struct termios	term;
 
 void	clear_term_get_size(t_info *info, t_dclist *list)
 {
@@ -60,7 +61,6 @@ void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 
 int main(int ac, char **av)
 {
-	struct termios	term;
 	char			buff[4];
 
 	list = NULL;
@@ -71,9 +71,9 @@ int main(int ac, char **av)
 		get_list(av, &list, &info);
 		clear_term_get_size(&info, list);
 		open(0, O_RDONLY);
+		ft_signal();
 		while (1)
 		{
-			ft_signal();
 			read(0, buff, 3);
 			get_key(buff, list, &info, config);
 		}
