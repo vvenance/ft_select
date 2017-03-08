@@ -1,60 +1,60 @@
 #include "../inc/ft_select.h"
+#include <errno.h>
 
-extern t_dclist 			*list;
-extern t_info			info;
-extern struct termios	config;
-extern struct termios	term;
+extern t_dclist *list;
+extern t_info info;
+extern struct termios config;
+extern struct termios term;
 
-static void	my_sigwinch(int signum)
+static void my_sigcont(void)
 {
-	//char *tname;
-	if (signum == SIGWINCH)
-		clear_term_get_size(&info, list);
-	if (signum == SIGCONT)
-	{
-		ft_putendl("here");
-	// 	if ((tname = getenv("TERM")) != NULL && tgetent(NULL, tname) == 1
-	// 	&& tcgetattr(0, &config) != ERR)
-	// {
-	// 	term = config;
-	// 	term.c_cc[VMIN] = 1;
-	// 	term.c_cc[VTIME] = 0;
-	// 	term.c_lflag &= ~(ICANON);
-	// 	term.c_lflag &= ~(ECHO);
-		if ((tcsetattr(0, TCSADRAIN, &term)) == -1)
-			ft_putendl_fd("yo", 2);
-	//}
-		clear_term_get_size(&info, list);
-		open(0, O_RDONLY);
-	}
+int ret;
+
+if (getenv("TERM") == NULL)
+ft_putendl("getenv issue");
+else
+{ 
+ret = open("/dev/tty", O_RDONLY);
+ret = init_termcaps(&term, &config);
+clear_term_get_size(&info, list);
+}
 }
 
-static void	my_sigtstp(int signum)
+static void my_sigtstp(void)
 {
-	char fake_sig[2];
+char fake_sig[2];
 
-	if (signum == SIGTSTP)
-	{
-		(void)signum;
-		fake_sig[0] = config.c_cc[VSUSP];
-		fake_sig[1] = '\0';
-		
-		if (ioctl(0, TIOCSTI, fake_sig) == -1)
-			ft_putendl("fail ioclt");
-		else
-			signal(SIGTSTP, SIG_DFL);
-		close(0);
-		return_to_term(&config);
-	}
+fake_sig[0] = config.c_cc[VSUSP];
+fake_sig[1] = '\0';
+
+if (ioctl(0, TIOCSTI, fake_sig) == -1)
+ft_putendl("ioctl fail");
+else
+signal(SIGTSTP, SIG_DFL);
+close(0);
+return_to_term(&config);
 }
 
-//|| signum == SIGINT || signum == SIGQUIT
-
-void	ft_signal(void)
+static void my_sighandler(int sig)
 {
-	signal(SIGWINCH, &my_sigwinch);
-	signal(SIGTSTP, &my_sigtstp);
-	signal(SIGCONT, &my_sigwinch);
-	//signal(SIGINT, &my_sigtstp);
-	//signal(SIGQUIT, &my_sigtstp);
+if (sig == SIGWINCH)
+clear_term_get_size(&info, list);
+else if (sig == SIGTSTP)
+my_sigtstp();
+else if (sig == SIGCONT)
+my_sigcont();
+else
+signal(sig, SIG_IGN);
+}
+
+void ft_signal(void)
+{
+int i;
+
+i = 1;
+while (i < 32)
+{
+signal(i, my_sighandler);
+i++;
+}
 }
