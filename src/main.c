@@ -33,7 +33,7 @@ void	clear_term_get_size(t_info *info, t_dclist *list)
 
 void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 {
-	if (buff[0] == 4) //ctrl+d
+	if (buff[0] == 4)
 	{
 		return_to_term(&config);
 		exit (0); // free les malloc et quitter proprement
@@ -54,8 +54,6 @@ void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 		right_key(list, info);
 	else if (buff[0] == 27 && buff[1] == 91 && buff[2] == 68)
 		left_key(list, info);
-	else if (buff[0] == 26)
-		ft_putendl("ctrl+z");
 	ft_bzero(buff, 3);
 }
 
@@ -79,7 +77,7 @@ int main(int ac, char **av)
 		}
 	}
 	else
-		ft_putendl_fd("Something went wrong. Maybe you should set a correct environnement before running the program again. Bye !", 2);
+		ft_putendl_fd("Something went wrong. Maybe you should set an env before relauching", 2);
 	return_to_term(&config);
 	return (0);
 }
