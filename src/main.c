@@ -35,7 +35,7 @@ void	get_key(char *buff, t_dclist *list, t_info *info, struct termios config)
 {
 	if (buff[0] == 4)
 	{
-		return_to_term(&config);
+		return_key(list, config);//return_to_term(&config);
 		exit (0); // free les malloc et quitter proprement
 	}
 	else if (buff[0] == 27 && buff[1] == 0)
@@ -77,7 +77,10 @@ int main(int ac, char **av)
 		}
 	}
 	else
+	{
 		ft_putendl_fd("Something went wrong. Maybe you should set an env before relauching", 2);
-	return_to_term(&config);
+		sleep(3);
+		return_key(list, config);
+	}
 	return (0);
 }

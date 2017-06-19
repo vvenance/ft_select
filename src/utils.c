@@ -7,11 +7,15 @@ void return_to_term(struct termios *config)
 	//config->c_lflag &= ~(ISIG);
 	str = tgetstr("cnorm", NULL);
 	tputs(str, 0, &my_putc);
-	str = tgetstr("ve", NULL);
-	tputs(str, 0, &my_putc);
+	//str = tgetstr("ve", NULL);
+	//tputs(str, 0, &my_putc);
 	if (tcgetattr(0, config) != -1)
 		exit(1);
 }
+
+// str = tgetstr("cl", NULL);
+// 	tputs(str, 0, &my_putc);
+// 	ioctl(0, TIOCGWINSZ, &winsize);
 
 int		my_putc(int c)
 {

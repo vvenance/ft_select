@@ -1,6 +1,6 @@
 NAME		= ft_select
 
-CC			= CC
+CC			= gcc
 
 CFLAGS		= -Wall -Werror -Wextra
 

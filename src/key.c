@@ -69,8 +69,7 @@ void	bspace_delete_key(t_dclist *list, t_info *info, struct termios config)
 	if (info->nb_elem == 1)
 	{
 		//free_le ptr sur la liste
-		return_to_term(&config);
-		exit(0);
+		return_key(list, config);
 	}
 	ptr = list;
 	while (!ptr->know[CURR])
@@ -88,6 +87,7 @@ void	return_key(t_dclist *list, struct termios config)
 	t_dclist *ptr;
 	int ret;
 	int fd;
+	char *str;
 
 	ptr = list;
 	ret = 0;
@@ -115,6 +115,12 @@ void	return_key(t_dclist *list, struct termios config)
 			break;
 	}
 	//free list
-	return_to_term(&config);
+	//return_to_term(&config);
+	str = tgetstr("cnorm", NULL);
+	tputs(str, 0, &my_putc);
+	str = tgetstr("ve", NULL);
+	tputs(str, 0, &my_putc);
+	if (tcgetattr(0, &config) != -1)
+		exit(1);
 	exit(0);
 }

@@ -31,7 +31,7 @@ static void my_sigtstp(void)
 	else
 		signal(SIGTSTP, SIG_DFL);
 	close(0);
-	return_to_term(&config);
+	return_key(NULL, config);//return_to_term(&config);
 }
 
 static void my_sighandler(int sig)
