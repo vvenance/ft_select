@@ -29,7 +29,7 @@ static void my_sigtstp(void)
 	if (ioctl(0, TIOCSTI, fake_sig) == -1)
 		ft_putendl("ioctl fail");
 	else
-		signal(SIGTSTP, SIG_DFL);
+		signal(SIGTSTP, SIG_DFL);// probleme ici, pas de fg possible apres le ctrl+z
 	close(0);
 	return_key(NULL, config);//return_to_term(&config);
 }
